@@ -16,7 +16,7 @@
                     <p>Rilassati con un massaggio rigenerante, ideale per sciogliere le tensioni muscolari. <br> 
                     <strong>Prezzo: €50</strong></p>
                 </div>
-                <img src="{{ asset('images/massaggio.webp') }}" alt="Massaggio Relax" class="img-fluid" style="max-width: 100px; border-radius: 8px;">
+                <img src="{{ asset('images/spa.webp') }}" alt="Massaggio Relax" class="img-fluid" style="max-width: 100px; border-radius: 8px;">
             </div>
             
             <!-- Trattamento Viso -->
@@ -56,7 +56,7 @@
                     <p>Immergiti in un'esperienza ispirata alla cultura zen: aromaterapia, massaggio con pietre calde e meditazione guidata. <br>
                     <strong>Prezzo: €120</strong></p>
                 </div>
-                <img src="{{ asset('images/buddha.webp') }}" alt="Pacchetto Buddha Zen" class="img-fluid" style="max-width: 100px; border-radius: 8px;">
+                <img src="{{ asset('images/the.webp') }}" alt="Pacchetto Buddha Zen" class="img-fluid" style="max-width: 100px; border-radius: 8px;">
             </div>
 
             <!-- Trattamento Chakra Balance -->
@@ -66,7 +66,7 @@
                     <p>Riequilibra il tuo corpo e la tua mente con un trattamento dedicato ai sette chakra. <br>
                     <strong>Prezzo: €90</strong></p>
                 </div>
-                <img src="{{ asset('images/equilibrio.webp') }}" alt="Trattamento Chakra Balance" class="img-fluid" style="max-width: 100px; border-radius: 8px;">
+                <img src="{{ asset('images/spa.webp') }}" alt="Trattamento Chakra Balance" class="img-fluid" style="max-width: 100px; border-radius: 8px;">
             </div>
         </div>
         
