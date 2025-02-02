@@ -55,10 +55,10 @@
 
         <!-- Azioni rapide -->
         <div class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <a href="{{ route('events.create') }}" class="p-5 bg-blue-600 text-white font-bold rounded-xl shadow-lg flex items-center justify-center gap-2 hover:bg-blue-700 transition">
+            <a href="{{ route('admin.events.create') }}" class="p-5 bg-blue-600 text-white font-bold rounded-xl shadow-lg flex items-center justify-center gap-2 hover:bg-blue-700 transition">
                 ➕ Crea Evento
             </a>
-            <a href="{{ route('bookings.index') }}" class="p-5 bg-green-600 text-white font-bold rounded-xl shadow-lg flex items-center justify-center gap-2 hover:bg-green-700 transition">
+            <a href="{{ route('admin.bookings.index') }}" class="p-5 bg-green-600 text-white font-bold rounded-xl shadow-lg flex items-center justify-center gap-2 hover:bg-green-700 transition">
                 📋 Gestisci Prenotazioni
             </a>
             <a href="{{ route('social.posts') }}" class="p-5 bg-pink-600 text-white font-bold rounded-xl shadow-lg flex items-center justify-center gap-2 hover:bg-pink-700 transition">
