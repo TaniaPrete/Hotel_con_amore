@@ -4,84 +4,72 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\JobApplicationController;
-use App\Http\Controllers\BookingController;
+use App\Http\Controllers\BookingController; // Booking per i clienti
+use App\Http\Controllers\Frontend\BookingController as FrontBookingController; // Booking per la gestione interna
 use App\Http\Controllers\SpaController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DashboardController;
+use Laravel\Fortify\Http\Controllers\RegisteredUserController;
 
-// Route per la home
-Route::get('/', [PageController::class, 'welcome'])->name('welcome');
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\SocialController;
+use App\Http\Controllers\UserController;
 
-// Rotte per il modulo di contatto
-Route::get('/contact', function () {
-    return view('layouts.contact');
-})->name('contact');
-Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
+// 🏠 Dashboard interna (Protetta da Login)
+Route::middleware(['web', 'auth'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-// Route per FAQ (inclusa nella pagina Servizi)
-Route::get('/faq', function () {
-    return view('faq');
-})->name('faq');
+    // 📅 Prenotazioni INTERNE gestite dallo staff
+    Route::get('/admin/bookings', [FrontBookingController::class, 'index'])->name('admin.bookings.index');
+    Route::get('/admin/bookings/create', [FrontBookingController::class, 'create'])->name('admin.bookings.create');
+    Route::post('/admin/bookings', [FrontBookingController::class, 'store'])->name('admin.bookings.store');
 
-// Route per i servizi
-Route::get('/services', function () {
-    return view('services', [
+    // 👤 Profilo utente
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+// 📌 Rotte Pubbliche
+Route::middleware(['web'])->group(function () {
+    Route::get('/', [PageController::class, 'welcome'])->name('welcome');
+    Route::get('/contact', fn () => view('contact'))->name('contact');
+    Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
+    Route::get('/faq', fn () => view('faq'))->name('faq');
+    Route::get('/services', fn () => view('services', [
         'services' => [
-            ['name' => 'Camere eleganti', 'description' => 'Comfort e lusso nelle nostre stanze uniche.', 'link' => route('rooms.index')],
-            ['name' => 'Ristorazione raffinata', 'description' => 'Cucina di alta qualit\u00e0 per ogni palato.', 'link' => route('dining')],
-            ['name' => 'Spa e relax', 'description' => 'Rilassati nel nostro centro benessere esclusivo.', 'link' => route('spa')],
+            ['name' => 'Camere eleganti', 'description' => 'Comfort e lusso.', 'link' => route('rooms.index')],
+            ['name' => 'Ristorazione', 'description' => 'Cucina di alta qualità.', 'link' => route('dining')],
+            ['name' => 'Spa e relax', 'description' => 'Centro benessere esclusivo.', 'link' => route('spa')],
         ]
-    ]);
-})->name('services');
+    ]))->name('services');
+    Route::get('/whois', fn () => view('whois'))->name('whois');
+    Route::get('/work-with-us', [JobApplicationController::class, 'showForm'])->name('work-with-us');
+    Route::post('/work-with-us', [JobApplicationController::class, 'submitApplication'])->name('job.submit');
+    Route::get('/gallery', fn () => view('gallery'))->name('gallery');
+    Route::get('/spa', fn () => view('spa'))->name('spa');
+    Route::get('/spa-booking', [SpaController::class, 'index'])->name('spa-booking');
+    Route::post('/confirm-spa-booking', [SpaController::class, 'confirm'])->name('confirm-spa-booking');
+    Route::get('/rooms', [RoomController::class, 'index'])->name('rooms.index');
+    Route::get('/dining', fn () => view('dining'))->name('dining');
 
-// Route per la pagina Chi Siamo
-Route::get('/whois', function () {
-    return view('whois');
-})->name('whois');
+    // 📅 Prenotazioni CLIENTI (per gli utenti pubblici)
+    Route::get('/booking', [BookingController::class, 'index'])->name('booking');
+    Route::post('/confirm-booking', [BookingController::class, 'confirm'])->name('confirm_booking');
 
-// Route per Lavora con Noi
-Route::get('/work-with-us', function () {
-    return view('work-with-us');
-})->name('work-with-us');
-Route::post('/work-with-us', [JobApplicationController::class, 'submitApplication'])->name('work-with-us.submit');
+    // 🎭 Eventi
+    Route::get('/events/create', [EventController::class, 'create'])->name('events.create');
 
-// Route per la galleria
-Route::get('/gallery', function () {
-    return view('gallery');
-})->name('gallery');
+    // 📱 Post Social
+    Route::get('/social/posts', [SocialController::class, 'index'])->name('social.posts');
 
-// Rotte per SPA
-Route::get('/spa', function () {
-    return view('spa');
-})->name('spa');
-Route::get('/spa-booking', [SpaController::class, 'index'])->name('spa-booking');
-Route::post('/confirm-spa-booking', [SpaController::class, 'confirm'])->name('confirm-spa-booking');
+    // 🧑‍💼 Gestione Utenti
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
 
-// Rotte per le Camere
-Route::get('/rooms', [RoomController::class, 'index'])->name('rooms.index');
+    // 🛡️ Registrazione utenti
+    Route::post('/register', [RegisteredUserController::class, 'store'])->name('register');
 
-// Rotte per la Ristorazione
-Route::get('/dining', function () {
-    return view('dining');
-})->name('dining');
-
-// Rotte per la prenotazione
-Route::get('/booking', [BookingController::class, 'index'])->name('booking');
-Route::post('/confirm-booking', [BookingController::class, 'confirm'])->name('confirm_booking');
-
-// Rotte per autenticazione
-Route::get('/login', function () {
-    return view('auth.login');
-})->name('login');
-Route::get('/register', function () {
-    return view('auth.register');
-})->name('register');
-
-// Rotta per la dashboard
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard')->middleware('auth');
-
-// Rotte dalla dashboard
-Route::get('/bookings', [BookingController::class, 'index'])->name('bookings.index');
-Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+    // ⚡ Importiamo le rotte di autenticazione di Laravel Breeze
+    require __DIR__.'/auth.php';
+});

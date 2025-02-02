@@ -8,53 +8,67 @@ use App\Actions\Fortify\UpdateUserPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Fortify\Fortify;
-use Laravel\Fortify\Contracts\CreatesNewUsers;
-use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Cache\RateLimiting\Limit;
 
 class FortifyServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
     public function register(): void
     {
-        // Associa la classe CreateNewUser all'interfaccia CreatesNewUsers
+        // Registrazione delle implementazioni delle interfacce di Fortify
         $this->app->singleton(
             \Laravel\Fortify\Contracts\CreatesNewUsers::class,
-            \App\Actions\Fortify\CreateNewUser::class
+            CreateNewUser::class
+        );
+
+        $this->app->singleton(
+            \Laravel\Fortify\Contracts\ResetsUserPasswords::class,
+            ResetUserPassword::class
+        );
+
+        $this->app->singleton(
+            \Laravel\Fortify\Contracts\UpdatesUserPasswords::class,
+            UpdateUserPassword::class
+        );
+
+        $this->app->singleton(
+            \Laravel\Fortify\Contracts\UpdatesUserProfileInformation::class,
+            UpdateUserProfileInformation::class
         );
     }
 
-    /**
-     * Bootstrap any application services.
-     */
     public function boot(): void
     {
-        // Collega la vista di login personalizzata
+        // Imposta le viste personalizzate per login e registrazione
         Fortify::loginView(function () {
             return view('auth.login');
         });
 
-        // Collega altre viste personalizzate
         Fortify::registerView(function () {
             return view('auth.register');
         });
 
-        Fortify::resetPasswordView(function ($request) {
-            return view('auth.passwords.reset', ['request' => $request]);
+        // Gestisce l'autenticazione personalizzata
+        Fortify::authenticateUsing(function (Request $request) {
+            $credentials = $request->only('email', 'password');
+
+            if (Auth::attempt($credentials, $request->filled('remember'))) {
+                $request->session()->regenerate();
+                return Auth::user();
+            }
+
+            return null;
         });
 
-        Fortify::requestPasswordResetLinkView(function () {
-            return view('auth.passwords.email');
+        // Limita il numero di tentativi di login per migliorare la sicurezza
+        RateLimiter::for('login', function (Request $request) {
+            $email = (string) $request->email;
+            return Limit::perMinute(5)->by($email . $request->ip());
         });
 
-        // Configurazione per il rate limiter
-        RateLimiter::for('login', function ($request) {
-            return Limit::perMinute(5)->by($request->email.$request->ip());
-        });
-
-        RateLimiter::for('two-factor', function ($request) {
+        RateLimiter::for('two-factor', function (Request $request) {
             return Limit::perMinute(5)->by($request->session()->get('login.id'));
         });
     }

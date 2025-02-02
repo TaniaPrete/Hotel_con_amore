@@ -8,6 +8,11 @@ use App\Mail\JobApplicationMail;
 
 class JobApplicationController extends Controller
 {
+    public function showForm()
+    {
+        return view('job_application.form'); // Assicurati che la vista esista in resources/views/job_application/form.blade.php
+    }
+
     public function submitApplication(Request $request)
     {
         // Validazione dei dati del modulo

@@ -8,12 +8,12 @@ use Illuminate\Support\Facades\Route;
 class RouteServiceProvider extends ServiceProvider
 {
     /**
-     * This namespace is applied to your controller routes.
+     * Il percorso dove vengono reindirizzati gli utenti dopo il login.
      */
-    protected $namespace = 'App\Http\Controllers';
+    public const HOME = '/dashboard';
 
     /**
-     * Define your route model bindings, pattern filters, etc.
+     * Definisce le binding del modello, pattern e altre configurazioni.
      */
     public function boot(): void
     {
@@ -21,7 +21,7 @@ class RouteServiceProvider extends ServiceProvider
     }
 
     /**
-     * Define the routes for the application.
+     * Definisce le route per l'applicazione.
      */
     public function map(): void
     {

@@ -1,98 +1,79 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <!-- Aggiungiamo Bootstrap o Tailwind CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <style>
-        body {
-            background-color: #f8f9fa;
-            font-family: 'Lora', serif;
-        }
-        .navbar {
-            background-color: #013a3a;
-        }
-        .navbar-brand, .nav-link {
-            color: white !important;
-        }
-        .card {
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-        .card:hover {
-            transform: scale(1.02);
-            transition: all 0.3s;
-        }
-    </style>
-</head>
-<body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container">
-            <a class="navbar-brand" href="#">Hotel Dashboard</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Prenotazioni</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Profilo</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Logout</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+@extends('layouts.app')
 
-    <!-- Dashboard Content -->
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="card text-center p-4">
-                    <h5 class="card-title">Camere Disponibili</h5>
-                    <p class="card-text">Gestisci le camere disponibili per i tuoi clienti.</p>
-                    <a href="#" class="btn btn-primary">Vai alle Camere</a>
-                </div>
+@section('title', 'Dashboard')
+
+@section('content')
+    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+        <h1 class="text-3xl font-bold text-gray-900">🎉 Benvenuto nella Dashboard</h1>
+        <p class="text-lg text-gray-600 mt-2">Gestisci eventi, prenotazioni e molto altro.</p>
+
+        <!-- Sezione Statistiche -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+            <div class="p-6 bg-white shadow-lg rounded-xl border-l-4 border-indigo-500 transition hover:scale-105">
+                <h2 class="text-lg font-semibold text-gray-700">Eventi in programma</h2>
+                <p class="text-4xl font-bold text-indigo-600 mt-2">5</p>
             </div>
-            <div class="col-md-4">
-                <div class="card text-center p-4">
-                    <h5 class="card-title">Prenotazioni</h5>
-                    <p class="card-text">Controlla e modifica le prenotazioni.</p>
-                    <a href="#" class="btn btn-primary">Gestisci Prenotazioni</a>
-                </div>
+            <div class="p-6 bg-white shadow-lg rounded-xl border-l-4 border-green-500 transition hover:scale-105">
+                <h2 class="text-lg font-semibold text-gray-700">Posti prenotati</h2>
+                <p class="text-4xl font-bold text-green-600 mt-2">120</p>
             </div>
-            <div class="col-md-4">
-                <div class="card text-center p-4">
-                    <h5 class="card-title">Profilo</h5>
-                    <p class="card-text">Modifica le informazioni del tuo profilo.</p>
-                    <a href="#" class="btn btn-primary">Vai al Profilo</a>
-                </div>
+            <div class="p-6 bg-white shadow-lg rounded-xl border-l-4 border-pink-500 transition hover:scale-105">
+                <h2 class="text-lg font-semibold text-gray-700">Follower Instagram</h2>
+                <p class="text-4xl font-bold text-pink-600 mt-2">3,500</p>
             </div>
         </div>
-        <div class="row mt-4">
-            <div class="col-md-12">
-                <div class="alert alert-info text-center">
-                    <h4>Benvenuta, Tania!</h4>
-                    <p>Questa è la tua area riservata per gestire l'hotel in modo efficiente.</p>
-                </div>
-            </div>
+
+        <!-- Sezione Prossimi Eventi -->
+        <div class="mt-8 bg-white shadow-lg rounded-xl p-6">
+            <h2 class="text-2xl font-semibold text-gray-700">📅 Prossimi Eventi</h2>
+            <table class="w-full mt-4 border-collapse">
+                <thead>
+                    <tr class="bg-gray-100 text-gray-700">
+                        <th class="py-3 px-4 text-left">Nome Evento</th>
+                        <th class="py-3 px-4 text-left">Data</th>
+                        <th class="py-3 px-4 text-left">Stato</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="border-b hover:bg-gray-50">
+                        <td class="py-3 px-4">Cena Bendata - 27 Febbraio</td>
+                        <td class="py-3 px-4">27/02/2025</td>
+                        <td class="py-3 px-4">
+                            <span class="px-3 py-1 bg-green-200 text-green-800 rounded-full">Attivo</span>
+                        </td>
+                    </tr>
+                    <tr class="border-b hover:bg-gray-50">
+                        <td class="py-3 px-4">San Valentino a Portineria 21</td>
+                        <td class="py-3 px-4">14/02/2025</td>
+                        <td class="py-3 px-4">
+                            <span class="px-3 py-1 bg-red-200 text-red-800 rounded-full">Chiuso</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
+
+        <!-- Azioni rapide -->
+        <div class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <a href="{{ route('events.create') }}" class="p-5 bg-blue-600 text-white font-bold rounded-xl shadow-lg flex items-center justify-center gap-2 hover:bg-blue-700 transition">
+                ➕ Crea Evento
+            </a>
+            <a href="{{ route('bookings.index') }}" class="p-5 bg-green-600 text-white font-bold rounded-xl shadow-lg flex items-center justify-center gap-2 hover:bg-green-700 transition">
+                📋 Gestisci Prenotazioni
+            </a>
+            <a href="{{ route('social.posts') }}" class="p-5 bg-pink-600 text-white font-bold rounded-xl shadow-lg flex items-center justify-center gap-2 hover:bg-pink-700 transition">
+                📱 Post Social
+            </a>
+            <a href="{{ route('users.index') }}" class="p-5 bg-gray-600 text-white font-bold rounded-xl shadow-lg flex items-center justify-center gap-2 hover:bg-gray-700 transition">
+                👥 Gestisci Utenti
+            </a>
+        </div>
+
+        <!-- Sezione Notifiche -->
+        @if(session('success'))
+            <div class="mt-6 p-4 bg-green-200 text-green-800 rounded-lg shadow">
+                ✅ {{ session('success') }}
+            </div>
+        @endif
     </div>
-
-    <!-- Footer -->
-    <footer class="text-center py-4 mt-5">
-        <p>&copy; 2025 Hotel con Amore. Tutti i diritti riservati.</p>
-    </footer>
-</body>
-</html>
+@endsection

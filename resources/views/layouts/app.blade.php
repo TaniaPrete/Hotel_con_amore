@@ -3,14 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title') - Hotel con Amore</title>
-    @vite(['resources/css/auth_register.css'])
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-    
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    <title>@yield('title', config('app.name', 'Hotel con Amore'))</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+
+    <!-- Styles & Scripts -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
-<body>
+<body class="font-sans antialiased">
+
+    <!-- Header -->
     <header>
         <nav class="navbar transparent-navbar">
             <div class="logo">
@@ -36,10 +43,21 @@
         </nav>
     </header>
 
-    <main>
+    <!-- Page Heading (se presente) -->
+    @isset($header)
+        <header class="bg-white shadow">
+            <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                {{ $header }}
+            </div>
+        </header>
+    @endisset
+
+    <!-- Contenuto principale -->
+    <main class="min-h-screen bg-gray-100">
         @yield('content')
     </main>
 
+    <!-- Footer -->
     <footer>
         <p>&copy; 2024 Hotel con Amore - Tutti i diritti riservati</p>
         <p>Seguici sui social:
