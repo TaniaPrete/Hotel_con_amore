@@ -67,7 +67,19 @@
             <a href="{{ route('users.index') }}" class="p-5 bg-gray-600 text-white font-bold rounded-xl shadow-lg flex items-center justify-center gap-2 hover:bg-gray-700 transition">
                 👥 Gestisci Utenti
             </a>
-        </div>
+
+            <!-- Bottone Logout -->
+            <a href="{{ route('logout') }}" 
+               onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+               class="p-5 bg-red-600 text-white font-bold rounded-xl shadow-lg flex items-center justify-center gap-2 hover:bg-red-700 transition">
+                🚪 Logout
+            </a>
+        </div> 
+
+        <!-- Form nascosto per il logout -->
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
+            @csrf
+        </form>
 
         <!-- Sezione Notifiche -->
         @if(session('success'))

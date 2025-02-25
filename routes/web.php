@@ -15,6 +15,15 @@ use Laravel\Fortify\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\SocialController;
 use App\Http\Controllers\UserController;
+use Illuminate\Http\Request;
+
+Route::post('/logout', function (Request $request) {
+    auth()->logout();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+    return redirect('/'); // Reindirizza alla homepage
+})->name('logout');
+
 
 // 🏠 Dashboard interna (Protetta da Login)
 Route::middleware(['web', 'auth'])->group(function () {

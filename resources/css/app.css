@@ -196,6 +196,7 @@ body {
     box-shadow: var(--box-shadow);
     transition: transform 0.3s, box-shadow 0.3s;
     margin-bottom: 80px; /* Ridotto per compattezza */
+    margin-left: 250px; 
 }
 
 #services .service-item:hover {
@@ -289,6 +290,8 @@ footer a:hover {
         background-color: var(--primary-color);
         transform: scale(1.05);
     }
+    
+    
     
 
     .booking-form {
